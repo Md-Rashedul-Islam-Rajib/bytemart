@@ -46,10 +46,10 @@ const Navbar = () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuContent className="bg-black text-white">
+            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Profile</DropdownMenuItem>
+            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Settings</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-zinc-300">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -57,19 +57,19 @@ const Navbar = () => {
       {/* Mobile menu toggle */}
       <div className="md:hidden flex gap-6">
         <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-black text-white">
+            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Profile</DropdownMenuItem>
+            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Settings</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-zinc-300">Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         </div>
         <Button onClick={() => setIsOpen(!isOpen)} className="p-2"
         size="icon"
