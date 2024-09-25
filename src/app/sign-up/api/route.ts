@@ -10,7 +10,7 @@ export const POST = async (request:Request) => {
         if(exist){
             return NextResponse.json({message: "User already exists"},{status: 304});
         }
-        const hashedPassword = await bcrypt.hashSync(user.password, 16);
+        const hashedPassword = await bcrypt.hashSync(user.password, 14);
         await userCollection?.insertOne({...user, password:hashedPassword});
         return NextResponse.json({message: "User Created"},{status:201});
     } catch (error:unknown) {

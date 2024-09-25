@@ -80,7 +80,7 @@ const SignUp = () => {
         if(res.ok){
           const result = await res.json();
           console.log("User Created :" , result);
-          router.push("/");
+          router.push("/sign-in");
         }else{
           const error = await res.json();
           console.log("Error :", error.message);
