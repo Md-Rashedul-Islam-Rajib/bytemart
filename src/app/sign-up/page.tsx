@@ -16,9 +16,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 
 const signUpSchema = z.object({
-  name: z.string().min(3, {
-    required_error: "Name is required",
-    invalid_type_error: "Name must be 3 or more characters long",
+  name: z.string().min(3, {message: "Name must be 3 or more characters long",
   }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -48,7 +46,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex bg-black text-white justify-center items-center h-screen">
+    <div className="flex bg-black text-white justify-center items-center py-8">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

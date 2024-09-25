@@ -7,7 +7,7 @@ import logo from "../../assets/logo.png"
 
 const Footer = () => {
   return (
-    <footer className="text-white">
+    <footer className="text-white pt-4">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between">
           {/* Left Section */}
