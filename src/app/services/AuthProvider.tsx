@@ -1,10 +1,10 @@
-import React from 'react'
+"use client"
 
-const AuthProvider = () => {
+const AuthProvider = ({children}) => {
   return (
-    <div>
-      
-    </div>
+    <SessionProvider>
+      {children}
+    </SessionProvider>
   )
 }
 
