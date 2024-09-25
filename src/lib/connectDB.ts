@@ -20,7 +20,7 @@ export const connectDB = async (): Promise<Db | undefined> => {
       },
     });
 
-    db = client.db("bytemart"); // Use the specific database `bytemart`
+    db = client.db("byteMart"); // Use the specific database `bytemart`
 
     return db; 
   } catch (error: unknown) {

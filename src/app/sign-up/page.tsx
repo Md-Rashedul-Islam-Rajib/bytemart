@@ -57,6 +57,7 @@ const SignUp = () => {
     return data.secure_url;
   }
 
+  //submit button func
   const onSubmit = async (data: SignUpFormValues) => {
     if(data.image){
       try {
@@ -67,10 +68,30 @@ const SignUp = () => {
         console.log("Error uploading image :",error)
       }
     }
-
-
-    console.log(data);
-    router.push("/");
+    const userInfo = {...data,image:imageUrl};
+      try {
+        const res = await fetch("/sign-up/api",{
+          method: "POST",
+          headers: {
+            "Content-Type" : "application/json",
+          },
+          body: JSON.stringify(userInfo),
+        });
+        if(res.ok){
+          const result = await res.json();
+          console.log("User Created :" , result);
+          router.push("/");
+        }else{
+          const error = await res.json();
+          console.log("Error :", error.message);
+        }
+      } catch (error:unknown) {
+        if(error instanceof Error){
+          console.log("Error submitting form :", error);
+        }
+        console.log("unknown error occurred",error);
+      }
+  
   };
 
   return (

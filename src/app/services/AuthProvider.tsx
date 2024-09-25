@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
 const AuthProvider = ({children}) => {
   return (
-    <SessionProvider>
+    <div>
       {children}
-    </SessionProvider>
+    </div>
   )
 }
 
