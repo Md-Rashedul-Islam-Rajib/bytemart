@@ -1,6 +1,6 @@
 "use client";
-// import { useRouter } from "next/router";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -28,7 +28,9 @@ const signUpSchema = z.object({
 type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 const SignUp = () => {
-  //   const router = useRouter();
+    const router = useRouter();
+
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
@@ -44,8 +46,8 @@ const SignUp = () => {
   const uploadImage = async (file : File) => {
     const formData = new FormData();
     formData.append("file",file);
-    formData.append("upload_preset", "pzk6cmri");
-    formData.append("cloud_name", "dbe3ewhey");
+    formData.append("upload_preset", "pzk6cmri"); //preset_name
+    formData.append("cloud_name", "dbe3ewhey"); //cloud_name
 
     const res = await fetch("https://api.cloudinary.com/v1_1/dbe3ewhey/image/upload", {
       method: "POST",
@@ -55,9 +57,20 @@ const SignUp = () => {
     return data.secure_url;
   }
 
-  const onSubmit = (data: SignUpFormValues) => {
+  const onSubmit = async (data: SignUpFormValues) => {
+    if(data.image){
+      try {
+        const imageUrl = await uploadImage(data.image);
+        setImageUrl(imageUrl);
+        console.log("uploaded image Url: ", imageUrl)
+      } catch (error:any) {
+        console.log("Error uploading image :",error)
+      }
+    }
+
+
     console.log(data);
-    // router.push("/");
+    router.push("/");
   };
 
   return (
@@ -145,6 +158,18 @@ const SignUp = () => {
           <Button type="submit" className="mt-4">
             Sign Up
           </Button>
+
+          {/* Display the uploaded image URL */}
+          {/* {imageUrl && (
+            <div className="mt-4">
+              <p>Image uploaded successfully!</p>
+              <a href={imageUrl} target="_blank" rel="noopener noreferrer">
+                {imageUrl}
+              </a>
+            </div>
+          )} */}
+
+
         </form>
       </Form>
     </div>
