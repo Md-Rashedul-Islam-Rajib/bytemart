@@ -11,9 +11,16 @@ import {
 import { useState } from "react";
 import logo from "../../assets/logo.png";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react"; // Import signOut
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession(); 
+  console.log(session);
+
+  const handleLogout = async () => {
+    await signOut(); // Call signOut function when logging out
+  };
 
   return (
     <nav className="flex items-center justify-between p-4">
@@ -37,43 +44,51 @@ const Navbar = () => {
         </a>
       </div>
 
-      {/* Profile Icon */}
+      {/* Profile Icon or Sign In Button */}
       <div className="hidden md:grid">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-black text-white">
-            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Profile</DropdownMenuItem>
-            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Settings</DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-zinc-300">Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {session ? ( // Check if the user is logged in
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar>
+                <AvatarImage
+                  src={session.user.image || "https://github.com/shadcn.png"} // Conditional src
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-black text-white">
+              <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Profile</DropdownMenuItem>
+              <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout} className="hover:bg-zinc-300">Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Link href="/sign-in">
+            <Button>Sign In</Button> {/* Show Sign In button if not logged in */}
+          </Link>
+        )}
       </div>
 
       {/* Mobile menu toggle */}
       <div className="md:hidden flex gap-6">
         <div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-black text-white">
-            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Profile</DropdownMenuItem>
-            <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Settings</DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-zinc-300">Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar>
+                <AvatarImage
+                  src={session?.user.image || "https://github.com/shadcn.png"} // Conditional src
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-black text-white">
+              <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Profile</DropdownMenuItem>
+              <DropdownMenuItem className="border-white border-b hover:bg-zinc-300">Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout} className="hover:bg-zinc-300">Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-        <Button onClick={() => setIsOpen(!isOpen)} className="p-2"
-        size="icon"
-            >
+        <Button onClick={() => setIsOpen(!isOpen)} className="p-2" size="icon">
           ☰
         </Button>
       </div>

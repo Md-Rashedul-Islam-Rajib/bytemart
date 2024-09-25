@@ -33,27 +33,7 @@ const SignIn = () => {
         redirect : false
     });
     console.log(response);
-    // Simulate API call
-    // try {
-    //   const res = await fetch("/api/auth/signin", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   if (res.ok) {
-    //     const result = await res.json();
-    //     console.log("User signed in: ", result);
-    //     router.push("/"); // Redirect on successful sign-in
-    //   } else {
-    //     const error = await res.json();
-    //     console.log("Error: ", error.message);
-    //   }
-    // } catch (error) {
-    //   console.log("Error submitting form: ", error);
-    // }
+    
   };
 
   return (

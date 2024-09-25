@@ -59,40 +59,49 @@ const SignUp = () => {
 
   //submit button func
   const onSubmit = async (data: SignUpFormValues) => {
-    if(data.image){
-      try {
-        const imageUrl = await uploadImage(data.image);
-        setImageUrl(imageUrl);
-        console.log("uploaded image Url: ", imageUrl)
-      } catch (error:any) {
-        console.log("Error uploading image :",error)
-      }
-    }
-    const userInfo = {...data,image:imageUrl};
-      try {
-        const res = await fetch("/sign-up/api",{
-          method: "POST",
-          headers: {
-            "Content-Type" : "application/json",
-          },
-          body: JSON.stringify(userInfo),
-        });
-        if(res.ok){
-          const result = await res.json();
-          console.log("User Created :" , result);
-          router.push("/sign-in");
-        }else{
-          const error = await res.json();
-          console.log("Error :", error.message);
+    try {
+      let imageUrl = null;
+      if (data.image) {
+        console.log("Uploading image...");
+        try {
+          imageUrl = await uploadImage(data.image);
+          setImageUrl(imageUrl);
+          console.log("Uploaded image URL:", imageUrl);
+        } catch (error: unknown) {
+          console.error("Error uploading image:", error);
+          return;
         }
-      } catch (error:unknown) {
-        if(error instanceof Error){
-          console.log("Error submitting form :", error);
-        }
-        console.log("unknown error occurred",error);
       }
   
+      const userInfo = { ...data, image: imageUrl };
+      console.log("User Info:", userInfo);
+  
+      // Send the form data, including the image URL, to the API
+      const res = await fetch("/sign-up/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userInfo),
+      });
+  
+      if (res.ok) {
+        const result = await res.json();
+        console.log("User Created:", result);
+        router.push("/sign-in");
+      } else {
+        const error = await res.json();
+        console.error("Error:", error.message);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error submitting form:", error);
+      } else {
+        console.error("Unknown error occurred:", error);
+      }
+    }
   };
+  
 
   return (
     <div className="flex bg-black text-white justify-center items-center py-8">
